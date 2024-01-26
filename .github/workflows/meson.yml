@@ -223,7 +223,18 @@ jobs:
         run: |
           pip install meson
 
+
+
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ github.job }}-${{ matrix.os }}
+          variant: sccache
+  
       - name: Setup
+        env:
+          CC: sccache.exe cl.exe
+          CXX: sccache.exe cl.exe
         run: |
           meson setup --buildtype=${{inputs.build_type}} -Ddebug_type=${{inputs.debug_level}} --vsenv build
 
