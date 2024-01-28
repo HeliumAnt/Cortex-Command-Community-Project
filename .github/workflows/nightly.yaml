@@ -2,8 +2,8 @@ name: Nightly (Development) Build and Release
 # Controls when the action will run.
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * *"
+  #schedule:
+    #- cron: "0 0 * * *"
 
 concurrency:
   group: nightly-${{ github.ref_name }}
