@@ -29,6 +29,14 @@ on:
       new_release_version:
         type: string
         required: false
+      osx-version:
+        type: string
+        required: false
+        default: "11.1"
+      macos-deployment-target:
+        type: string
+        required: false
+        default: "10.15"
 
   # Triggers the workflow when called by a top-level workflow
   workflow_call:
@@ -48,6 +56,14 @@ on:
       new_release_version:
         type: string
         required: false
+      osx-version:
+        type: string
+        required: false
+        default: "11.1"
+      macos-deployment-target:
+        type: string
+        required: false
+        default: "10.15"
 
 jobs:
   build-linux:
@@ -130,20 +146,22 @@ jobs:
           if-no-files-found: error
 
   build-macos:
-    runs-on: macos-11
+    runs-on: ubuntu-latest
     name: MacOS Build
 
     env:
-      GCC_VERSION: "13"
-      MACOSX_DEPLOYMENT_TARGET: 10.15
+      MACOSX_DEPLOYMENT_TARGET: ${{inputs.macosx-deployment-target}}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
 
-      - name: "Install Dependencies"
-        uses: melusina-org/setup-macports@v1
+      - name: "Install Osxcross"
+        uses: ./.github/actions/osxcross
         with:
-          parameters: ".github/parameters/macports.yml"
+          osx-version: ${{ inputs.osx-version }}
+
+      - name: "Install Dependencies"
+        run: omp install libsdl2 onetbb lz4 libpng minizip luajit flac
 
       - name: Set Version
         if: ${{inputs.new_release_version}}
@@ -159,17 +177,13 @@ jobs:
 
       - name: Setup Meson
         env:
-          CC: "ccache gcc-${{env.GCC_VERSION}}"
-          CXX: "ccache g++-${{env.GCC_VERSION}}"
           LDFLAGS: "-static-libgcc -static-libstdc++"
         run: |
-          meson setup --buildtype=${{inputs.build_type}} -Ddebug_type=${{inputs.debug_level}} -Db_lto=false build
+          meson setup --cross-file=${{env.GITHUB_ACTIONS_PATH}}/meson_osxcross.txt --buildtype=${{inputs.build_type}} -Ddebug_type=${{inputs.debug_level}} -Db_lto=false build
 
       - name: Configure for App Bundle
         if: ${{inputs.upload_artefacts}}
         env:
-          CC: "ccache gcc-${{env.GCC_VERSION}}"
-          CXX: "ccache g++-${{env.GCC_VERSION}}"
           LDFLAGS: "-static-libgcc -static-libstdc++"
         run: |
           meson configure \
@@ -180,8 +194,6 @@ jobs:
 
       - name: Build
         env:
-          CC: "ccache gcc-${{env.GCC_VERSION}}"
-          CXX: "ccache g++-${{env.GCC_VERSION}}"
           LDFLAGS: "-static-libgcc -static-libstdc++"
         run: |
           meson compile -C build
@@ -194,7 +206,6 @@ jobs:
       - name: Tar files
         if: ${{inputs.upload_artefacts}}
         run: |
-          tree /tmp/
           cd /tmp/
           tar -cvf CortexCommand.tar "Cortex Command.app"
 
