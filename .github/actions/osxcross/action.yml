@@ -105,11 +105,6 @@ runs:
         ARCH_TARGET="$(ls $OSXCROSS_FOLDER/target | grep apple)"
         echo "::endgroup::"
 
-        echo "::group::Set MacPorts mirror"
-        mkdir -p $OSXCROSS_FOLDER/target/macports/
-        echo "https://packages.macports.org" > $OSXCROSS_FOLDER/target/macports/MIRROR
-        echo "::endgroup::"
-
         echo "::group::Write meson cross file"
         cat << EOF > $GITHUB_ACTION_PATH/meson_osxcross.txt
         [constants]
