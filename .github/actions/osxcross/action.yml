@@ -76,6 +76,7 @@ runs:
       run: |
         cd "${GITHUB_ACTION_PATH}/osxcross"
         echo $PWD
+        ls
         ./build.sh
         ./build_gcc.sh
 
