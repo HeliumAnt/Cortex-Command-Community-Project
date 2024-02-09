@@ -65,7 +65,6 @@ runs:
         key: ${{ runner.os }}-osxcross-${{ inputs.osx-version }}
         path: |
           ${{ env.OSXCROSS_TARGET }}
-          ${{ env.OSXCROSS_FOLDER }}/target/
           
 
     - shell: bash
@@ -104,6 +103,10 @@ runs:
         echo "::group::Finding Arch Name"
         echo "$OSXCROSS_FOLDER/target/bin" >> $GITHUB_PATH
         ARCH_TARGET="$(ls $OSXCROSS_FOLDER/target | grep apple)"
+        echo "::endgroup::"
+
+        echo "::group::Set MacPorts mirror"
+        echo "https://packages.macports.org" > $OSXCROSS_FOLDER/target/macports/MIRROR
         echo "::endgroup::"
 
         echo "::group::Write meson cross file"
