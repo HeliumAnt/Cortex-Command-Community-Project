@@ -126,5 +126,3 @@ runs:
         echo "::endgroup::"
 
         echo "meson-osxcross=${GITHUB_ACTION_PATH}/meson_osxcross.txt" >> $GITHUB_OUTPUT
-
-        rm -r $OSXCROSS_FOLDER/target/macports
