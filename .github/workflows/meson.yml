@@ -71,6 +71,9 @@ jobs:
     name: Linux Build
 
     steps:
+      - name: Fail
+        run: |
+          return -1
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
@@ -227,6 +230,8 @@ jobs:
     name: Windows Build
 
     steps:
+      - name: Fail
+        run: return -1
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
 
