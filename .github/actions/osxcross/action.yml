@@ -64,10 +64,8 @@ runs:
       with:
         key: ${{ runner.os }}-osxcross-${{ inputs.osx-version }}
         path: |
-          ~/.cargo/registry
-          ~/.cargo/git
           ${{ env.OSXCROSS_TARGET }}
-          ${{ env.OSXCROSS_FOLDER }}/target/bi
+          ${{ env.OSXCROSS_FOLDER }}/target/
           
 
     - shell: bash
@@ -76,14 +74,14 @@ runs:
         SDK_VERSION: "${{ inputs.osx-version }}"
         UNATTENDED: "yes"
       run: |
-        cd "$GITHUB_ACTION_PATH/osxcross"
+        cd "${GITHUB_ACTION_PATH}/osxcross"
         bash ./build.sh
         bash ./build_gcc.sh
 
     - shell: bash
       run: |
         echo "::group::Setting up Bin files"
-        OSXCROSS_FOLDER="$(echo "$GITHUB_ACTION_PATH/osxcross" | sed 's/\.\/*//g')"
+        OSXCROSS_FOLDER="$(echo "${GITHUB_ACTION_PATH}/osxcross" | sed 's/\.\/*//g')"
         echo "OSXCROSS Folder = ${OSXCROSS_FOLDER}"
 
         if [ ! -d "$OSXCROSS_FOLDER/target/bin" ]; then
