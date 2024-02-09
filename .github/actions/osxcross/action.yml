@@ -15,12 +15,15 @@ runs:
   using: "composite"
   steps:
     - shell: bash
-      run: mkdir -p $GITHUB_ACTION_PATH/osxcross
+      run: |
+        mkdir -p $GITHUB_ACTION_PATH/osxcross
+        echo 'OSXCROSS_FOLDER="$(echo "$GITHUB_ACTION_PATH/osxcross" | sed 's/\.\/*//g')"' >> $GITHUB_ENV
+
 
     - uses: actions/checkout@v4
       with:
         repository: tpoechtrager/osxcross
-        path: ${{github.action.path}}/osxcross
+        path: ${{env.OSXCROSS_FOLDER}}
 
     - shell: bash
       id: target
