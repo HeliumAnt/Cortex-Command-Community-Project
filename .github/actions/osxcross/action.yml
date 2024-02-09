@@ -49,14 +49,6 @@ runs:
         sudo apt-get install --no-install-recommends -y -qq clang gcc g++ zlib1g-dev libmpc-dev libmpfr-dev libgmp-dev  cmake libxml2-dev libssl-dev xz-utils 
         echo "::endgroup::"
 
-        OSXCROSS_FOLDER="$(echo "$GITHUB_ACTION_PATH/osxcross" | sed 's/\.\/*//g')"
-
-        echo "::group::Cloning osxcross"
-        git clone "https://github.com/tpoechtrager/osxcross" "${OSXCROSS_FOLDER}"
-        echo "::endgroup::"
-
-          
-
         # Check setup for osx version
         echo "::group::Fetching macosx SDK"
         FILE_NAME="MacOSX${{ inputs.osx-version }}.sdk.tar.xz"
@@ -82,7 +74,7 @@ runs:
         SDK_VERSION: "${{ inputs.osx-version }}"
         UNATTENDED: "yes"
       run: |
-        cd ${GITHUB_ACTION_PATH}
+        cd ${OSXCROSS_FOLDER}
         ls -la
         ./build.sh
         ./build_gcc.sh
