@@ -17,6 +17,11 @@ runs:
     - shell: bash
       run: mkdir -p $GITHUB_ACTION_PATH/osxcross
 
+    - uses: action/checkout@v4
+      with:
+        repository: tpoechtrager/osxcross
+        path: ${{env.GITHUB_ACTION_PATH}}/osxcross
+
     - shell: bash
       id: target
       run: |
