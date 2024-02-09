@@ -75,8 +75,9 @@ runs:
         UNATTENDED: "yes"
       run: |
         cd "${GITHUB_ACTION_PATH}/osxcross"
-        bash ./build.sh
-        bash ./build_gcc.sh
+        echo $PWD
+        ./build.sh
+        ./build_gcc.sh
 
     - shell: bash
       run: |
