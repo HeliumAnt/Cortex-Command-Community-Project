@@ -106,6 +106,7 @@ runs:
         echo "::endgroup::"
 
         echo "::group::Set MacPorts mirror"
+        mkdir -p $OSXCROSS_FOLDER/target/macports/
         echo "https://packages.macports.org" > $OSXCROSS_FOLDER/target/macports/MIRROR
         echo "::endgroup::"
 
