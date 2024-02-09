@@ -17,7 +17,7 @@ runs:
     - shell: bash
       run: |
         mkdir -p $GITHUB_ACTION_PATH/osxcross
-        echo 'OSXCROSS_FOLDER=$(echo "$GITHUB_ACTION_PATH/osxcross" | sed 's/\.\/*//g')' >> $GITHUB_ENV
+        echo "OSXCROSS_FOLDER=$(echo "$GITHUB_ACTION_PATH/osxcross" | sed 's/\.\/*//g')" >> $GITHUB_ENV
 
 
     - uses: actions/checkout@v4
