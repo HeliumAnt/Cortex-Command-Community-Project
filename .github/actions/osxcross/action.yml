@@ -74,6 +74,7 @@ runs:
         SDK_VERSION: "${{ inputs.osx-version }}"
         UNATTENDED: "yes"
       run: |
+        cd ${GITHUB_ACTION_PATH}
         ls -la
         ./build.sh
         ./build_gcc.sh
