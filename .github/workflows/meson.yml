@@ -33,7 +33,7 @@ on:
         type: string
         required: false
         default: "11.1"
-      macos-deployment-target:
+      macosx-deployment-target:
         type: string
         required: false
         default: "10.15"
@@ -60,7 +60,7 @@ on:
         type: string
         required: false
         default: "11.1"
-      macos-deployment-target:
+      macosx-deployment-target:
         type: string
         required: false
         default: "10.15"
@@ -78,6 +78,7 @@ jobs:
       - uses: actions/setup-python@v3
 
       - name: "Install Osxcross"
+        id: osxcross
         uses: ./.github/actions/osxcross
         with:
           osx-version: ${{ inputs.osx-version }}
@@ -101,7 +102,7 @@ jobs:
         env:
           LDFLAGS: "-static-libgcc -static-libstdc++"
         run: |
-          meson setup --cross-file=${{env.GITHUB_ACTIONS_PATH}}/meson_osxcross.txt --buildtype=${{inputs.build_type}} -Ddebug_type=${{inputs.debug_level}} -Db_lto=false build
+          meson setup --cross-file=${{steps.osxcross.outputs.meson-osxcross}} --buildtype=${{inputs.build_type}} -Ddebug_type=${{inputs.debug_level}} -Db_lto=false build
 
       - name: Configure for App Bundle
         if: ${{inputs.upload_artefacts}}

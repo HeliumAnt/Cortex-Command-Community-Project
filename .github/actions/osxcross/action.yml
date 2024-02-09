@@ -75,9 +75,12 @@ runs:
         UNATTENDED: "yes"
       run: |
         cd ${OSXCROSS_FOLDER}
-        ls -la
+        echo "::group::Build osxcross"
         ./build.sh
+        echo "::endgroup::"
+        echo "::group::Build GCC"
         ./build_gcc.sh
+        echo "::endgroup::"
 
     - shell: bash
       run: |
@@ -108,8 +111,8 @@ runs:
         [constants]
         arch = '${ARCH_TARGET}'
         [binaries]
-        c = arch + '-gcc'
-        cpp = arch + '-g++'
+        c = ['ccache', arch + '-gcc']
+        cpp = ['ccache', arch + '-g++']
         strip = arch + '-strip'
         pkg-config = arch  + '-pkg-config'
         ranlib = arch + '-gcc-ranlib'
@@ -122,3 +125,5 @@ runs:
         endian = 'little'
         EOF
         echo "::endgroup::"
+
+        echo "meson-osxcross=${GITHUB_ACTION_PATH}/meson_osxcross.txt" >> $GITHUB_OUTPUT
