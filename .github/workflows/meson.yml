@@ -87,6 +87,7 @@ jobs:
         env:
           OSXCROSS_MACPORTS_MIRROR: "https://packages.macports.org"
         run: |
+          cat /etc/ssl/openssl.cnf
           echo "::group::Installing mac deps"
           omp install libsdl2 onetbb lz4 libpng minizip luajit flac
           echo "::endgroup::"
