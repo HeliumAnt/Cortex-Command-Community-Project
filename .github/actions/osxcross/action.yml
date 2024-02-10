@@ -102,15 +102,17 @@ runs:
             sudo chmod +x $OSXCROSS_FOLDER/target/bin/*
           else
             chmod +x $OSXCROSS_FOLDER/target/bin/*
-          fi    
-        fi
-          
+          fi
+        fi        
         echo "::endgroup::"
 
         echo "::group::Finding Arch Name"
         echo "$OSXCROSS_FOLDER/target/bin" >> $GITHUB_PATH
         ARCH_TARGET="$(ls $OSXCROSS_FOLDER/target | grep apple)"
         echo "::endgroup::"
+
+        ln -sf ${ARCH_TARGET}-otool ${OSXCROSS_TARGET}/bin/otool
+        ln -sf ${ARCH_TARGET}-install_name_tool ${OSXCROSS_TARGET}/bin/install_name_tool
 
         echo "::group::Write meson cross file"
         cat << EOF > $OSXCROSS_FOLDER/meson_osxcross.txt
@@ -136,4 +138,17 @@ runs:
 
     - shell: bash
       run: |
-        patch -i ${GITHUB_ACTION_PATH}/macports.patch ${OSXCROSS_FOLDER}/target/bin/osxcross-macports
+        OUT=$(patch -N -i ${GITHUB_ACTION_PATH}/macports.patch ${OSXCROSS_FOLDER}/target/bin/osxcross-macports) || echo "${OUT}" | grep "Skipping patch" -q || (echo "$OUT" && false);
+
+    - uses: actions/checkout@v4
+      with:
+        repository: auriamg/macdylibbundler
+        path: ${{env.OSXCROSS_FOLDER}}/dylibbundler
+
+    - shell: bash
+      run: |
+        echo "::group::Install dylibbundler"
+        cd ${OSXCROSS_FOLDER}/dylibbundler
+        make
+        echo "${OSXCROSS_FOLDER}/dylibbundler" >> $GITHUB_PATH
+        echo "::endgroup::"

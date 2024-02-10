@@ -72,8 +72,10 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
 
       - name: Install Dependencies
         run: |
@@ -98,7 +100,7 @@ jobs:
           CC: "ccache gcc"
           CXX: "ccache g++"
         run: |
-          meson setup --buildtype=${{inputs.build_type}} -Ddebug_type=${{inputs.debug_level}} -Db_lto=false build
+          meson setup --buildtype=${{inputs.build_type}} -Ddebug_type=${{inputs.debug_level}} -Db_lto=true build
 
       - name: Configure for AppImage
         if: ${{inputs.upload_artefacts}}
@@ -139,7 +141,7 @@ jobs:
 
       - name: Upload Appimage
         if: ${{inputs.upload_artefacts}}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: CortexCommand (Linux)
           path: CortexCommand.AppImage
@@ -208,6 +210,8 @@ jobs:
           -Dinstall_data=false -Dinstall_runner=false -Dfmod_dir=Contents/Frameworks \
           --bindir=Contents/MacOS \
           --prefix="/" \
+          -Ddylibbundler_args="-ns -s ${{env.OSXCROSS_TARGET}}/macports/pkgs/opt/local/lib/ \
+            -s ${{env.OSXCROSS_TARGET}}/macports/pkgs/opt/local/libexec/onetbb/lib/" \
           build
 
       - name: Build
@@ -219,7 +223,7 @@ jobs:
       - name: Create App Bundle
         if: ${{inputs.upload_artefacts}}
         run: |
-          DESTDIR="/tmp/Cortex Command.app" meson install -C build
+          meson install --destdir="/tmp/Cortex Command.app" -C build
 
       - name: Tar files
         if: ${{inputs.upload_artefacts}}
@@ -233,7 +237,7 @@ jobs:
 
       - name: Artifact Deploy
         if: ${{inputs.upload_artefacts}}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: CortexCommand (macOS)
           path: |
@@ -245,23 +249,16 @@ jobs:
     name: Windows Build
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
 
       - name: Install Dependencies
         run: |
           pip install meson
 
-      - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2.11
-        with:
-          key: ${{ github.job }}-${{ matrix.os }}
-          variant: sccache
-  
       - name: Setup
-        env:
-          CC: sccache.exe cl.exe
-          CXX: sccache.exe cl.exe
         run: |
           meson setup --buildtype=${{inputs.build_type}} -Ddebug_type=${{inputs.debug_level}} --vsenv build
 
