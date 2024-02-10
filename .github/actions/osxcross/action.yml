@@ -127,7 +127,10 @@ runs:
 
         echo "meson-osxcross=${GITHUB_ACTION_PATH}/meson_osxcross.txt" >> $GITHUB_OUTPUT
 
-        echo << EOF >> /etc/ssl/openssl.cnf
+        echo << EOF >> $GITHUB_ACTION_PATH/ssl.cnf
         [legacy_sect]
-        activate = 1
+        activate=1
+        [default_sect]
+        activate=1
         EOF
+        echo "legacy-ssl=${GITHUB_ACTION_PATH}/ss.cnf" >> $GITHUB_OUTPUT
