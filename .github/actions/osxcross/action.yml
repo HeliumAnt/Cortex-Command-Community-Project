@@ -91,7 +91,7 @@ runs:
       id: gen_configs
       run: |
         echo "::group::Setting up Bin files"
-        OSXCROSS_FOLDER="${GITHUB_ACTION_PATH}/osxcross"
+        OSXCROSS_FOLDER="$(echo "${GITHUB_ACTION_PATH}/osxcross" | sed 's/\.\/*//g')"
         echo "OSXCROSS Folder = ${OSXCROSS_FOLDER}"
 
         if [ ! -d "$OSXCROSS_FOLDER/target/bin" ]; then
@@ -113,7 +113,7 @@ runs:
         echo "::endgroup::"
 
         echo "::group::Write meson cross file"
-        cat << EOF > $GITHUB_ACTION_PATH/meson_osxcross.txt
+        cat << EOF > $OSXCROSS_FOLDER/meson_osxcross.txt
         [constants]
         arch = '${ARCH_TARGET}'
         [binaries]
@@ -132,13 +132,13 @@ runs:
         EOF
         echo "::endgroup::"
 
-        echo "meson-osxcross=${GITHUB_ACTION_PATH}/meson_osxcross.txt" >> $GITHUB_OUTPUT
+        echo "meson-osxcross=${OSXCROSS_FOLDER}/meson_osxcross.txt" >> $GITHUB_OUTPUT
 
-        echo << EOF >> $GITHUB_ACTION_PATH/ssl.cnf
+        echo << EOF >> $OSXCROSS_FOLDER/ssl.cnf
         [legacy_sect]
         activate=1
         [default_sect]
         activate=1
         EOF
 
-        echo "legacy-ssl=${GITHUB_ACTION_PATH}/ssl.cnf" >> $GITHUB_OUTPUT
+        echo "legacy-ssl=${OSXCROSS_FOLDER}/ssl.cnf" >> $GITHUB_OUTPUT
