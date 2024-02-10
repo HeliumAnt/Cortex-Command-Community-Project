@@ -11,7 +11,7 @@ index 3e87735..5c48e4e 100755
 +  errorMsg "set rmd160"
 +  local rmd160=$(openssl rmd160 -provider legacy "$PUBKEY" | awk '{print $2}')
 +  errorMsg "set sha1"
-+  local sha1=$(openssl sha1 -provider legacy "$PUBKEY" | awk '{print $2}')
++  local sha1=$(openssl sha1 "$PUBKEY" | awk '{print $2}')
  
    if [ "$rmd160" != "$PUBKEYRMD160" -o "$sha1" != "$PUBKEYSHA1" ]; then
      errorMsg "invalid macports public key (hash check failed)"
