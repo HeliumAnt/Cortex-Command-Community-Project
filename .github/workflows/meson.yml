@@ -82,17 +82,17 @@ jobs:
         uses: ./.github/actions/osxcross
         with:
           osx-version: ${{ inputs.osx-version }}
+      
+      - name: "Cache Dependencies"
+        uses: actions/cache@v4
+        with:
+          key: ${{runner.os}}-${{inputs.osx-version}}-macports
+          path: ${{env.OSXCROSS_FOLDER}}/target/macports
 
       - name: "Install Dependencies"
         env:
           OSXCROSS_MACPORTS_MIRROR: "https://packages.macports.org"
-          #OPENSSL_CONF: ${{steps.osxcross.outputs.legacy-ssl}}
         run: |
-          echo ${{steps.osxcross.outputs.meson-osxcross}}
-          cat ${{steps.osxcross.outputs.legacy-ssl}}
-          openssl list -provider legacy -digest-commands
-          which omp
-          which osxcross-macports
           echo "::group::Installing mac deps"
           omp install libsdl2 onetbb lz4 libpng minizip luajit flac
           echo "::endgroup::"
