@@ -8,8 +8,8 @@ index 3e87735..5f2b1bc 100755
  
 -  local rmd160=$(openssl rmd160 "$PUBKEY" | awk '{print $2}')
 -  local sha1=$(openssl sha1 "$PUBKEY" | awk '{print $2}')
-+  local rmd160=$(openssl -legacy rmd160 "$PUBKEY" | awk '{print $2}')
-+  local sha1=$(openssl -legacy sha1 "$PUBKEY" | awk '{print $2}')
++  local rmd160=$(openssl -provider legacy rmd160 "$PUBKEY" | awk '{print $2}')
++  local sha1=$(openssl -provider legacy sha1 "$PUBKEY" | awk '{print $2}')
  
    if [ "$rmd160" != "$PUBKEYRMD160" -o "$sha1" != "$PUBKEYSHA1" ]; then
      errorMsg "invalid macports public key (hash check failed)"
@@ -18,7 +18,7 @@ index 3e87735..5f2b1bc 100755
    set +e
  
 -  openssl dgst -ripemd160 -verify "$PUBKEY" -signature \
-+  openssl dgst -legacy -ripemd160 -verify "$PUBKEY" -signature \
++  openssl dgst -legacy -provider legacy -ripemd160 -verify "$PUBKEY" -signature \
      "$CACHE/$file.rmd160" "$CACHE/$file" 1>/dev/null
  
    if [ $? -ne 0 ]; then

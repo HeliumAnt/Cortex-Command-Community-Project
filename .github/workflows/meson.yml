@@ -86,7 +86,7 @@ jobs:
       - name: "Install Dependencies"
         env:
           OSXCROSS_MACPORTS_MIRROR: "https://packages.macports.org"
-          OPENSSL_CONF: ${{steps.osxcross.outputs.legacy-ssl}}
+          #OPENSSL_CONF: ${{steps.osxcross.outputs.legacy-ssl}}
         run: |
           echo ${{steps.osxcross.outputs.meson-osxcross}}
           cat ${{steps.osxcross.outputs.legacy-ssl}}
