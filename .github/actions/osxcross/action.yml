@@ -91,7 +91,7 @@ runs:
       id: gen_configs
       run: |
         echo "::group::Setting up Bin files"
-        OSXCROSS_FOLDER="$(echo "${GITHUB_ACTION_PATH}/osxcross" | sed 's/\.\/*//g')"
+        OSXCROSS_FOLDER="${GITHUB_ACTION_PATH}/osxcross"
         echo "OSXCROSS Folder = ${OSXCROSS_FOLDER}"
 
         if [ ! -d "$OSXCROSS_FOLDER/target/bin" ]; then
@@ -142,6 +142,3 @@ runs:
         EOF
 
         echo "legacy-ssl=${GITHUB_ACTION_PATH}/ssl.cnf" >> $GITHUB_OUTPUT
-        echo $GITHUB_OUTPUT
-        cat $GITHUB_OUTPUT
-        tree
