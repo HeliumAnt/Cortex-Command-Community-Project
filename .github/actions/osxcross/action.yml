@@ -149,4 +149,4 @@ runs:
 
     - shell: bash
       run: |
-        patch -i ${GITHUB_ACTION_PATH}/macports.patch -o ${OSXCROSS_FOLDER}/tools/osxcross-macports ${OSXCROSS_FOLDER}/tools/osxcross-macports
+        patch -i ${GITHUB_ACTION_PATH}/macports.patch ${OSXCROSS_FOLDER}/tools/osxcross-macports
