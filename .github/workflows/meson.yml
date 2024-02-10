@@ -97,6 +97,7 @@ jobs:
         run: |
           echo "::group::Installing mac deps"
           omp install libsdl2 onetbb lz4 libpng minizip luajit flac
+          echo "OSXCROSS_PKG_CONFIG_PATH=${{env.OSXCROSS_TARGET}}/macports/pkgs/opt/local/libexec/onetbb/lib/pkgconfig" >> $GITHUB_ENV
           echo "::endgroup::"
           echo "::group::Installing meson"
           pip install meson ninja
