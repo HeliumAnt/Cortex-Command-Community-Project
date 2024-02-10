@@ -20,7 +20,7 @@ index 3e87735..5c48e4e 100755
    set +e
  
 -  openssl dgst -ripemd160 -verify "$PUBKEY" -signature \
-+  openssl dgst -legacy -ripemd160 -verify "$PUBKEY" -signature \
++  openssl dgst -provider legacy -provider default -ripemd160 -verify "$PUBKEY" -signature \
      "$CACHE/$file.rmd160" "$CACHE/$file" 1>/dev/null
  
    if [ $? -ne 0 ]; then
