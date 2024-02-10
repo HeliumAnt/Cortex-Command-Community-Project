@@ -74,8 +74,8 @@ jobs:
     env:
       MACOSX_DEPLOYMENT_TARGET: ${{inputs.macosx-deployment-target}}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
 
       - name: "Install Osxcross"
         id: osxcross

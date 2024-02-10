@@ -134,7 +134,7 @@ runs:
 
         echo "meson-osxcross=${OSXCROSS_FOLDER}/meson_osxcross.txt" >> $GITHUB_OUTPUT
 
-        echo << EOF >> $OSXCROSS_FOLDER/ssl.cnf
+        cat << EOF >> $OSXCROSS_FOLDER/ssl.cnf
         [legacy_sect]
         activate=1
         [default_sect]
@@ -142,3 +142,4 @@ runs:
         EOF
 
         echo "legacy-ssl=${OSXCROSS_FOLDER}/ssl.cnf" >> $GITHUB_OUTPUT
+        cat $OSXCROSS_FOLDER/ssl.cnf
