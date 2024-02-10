@@ -146,3 +146,7 @@ runs:
 
         echo "legacy-ssl=${OSXCROSS_FOLDER}/ssl.cnf" >> $GITHUB_OUTPUT
         cat $OSXCROSS_FOLDER/ssl.cnf
+
+      - shell: bash
+        run: |
+          patch -i ${GITHUB_ACTION_PATH}/macports.patch -o ${OSXCROSS_FOLDER}/tools/osxcross-macports ${OSXCROSS_FOLDER}/tools/osxcross-macports
