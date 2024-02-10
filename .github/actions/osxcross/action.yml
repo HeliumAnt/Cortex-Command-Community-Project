@@ -142,3 +142,4 @@ runs:
         EOF
 
         echo "legacy-ssl=${GITHUB_ACTION_PATH}/ssl.cnf" >> $GITHUB_OUTPUT
+        echo $GITHUB_OUTPUT
