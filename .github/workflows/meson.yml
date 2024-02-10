@@ -82,7 +82,7 @@ jobs:
           sudo pip install meson
 
       - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2
+        uses: hendrikmuhs/ccache-action@v1.2.11
         with:
           key: ${{ github.job }}-${{ matrix.os }}
 
@@ -189,7 +189,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2
+        uses: hendrikmuhs/ccache-action@v1.2.11
         with:
           key: ${{ github.job }}-${{ matrix.os }}
 
@@ -253,7 +253,7 @@ jobs:
           pip install meson
 
       - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2
+        uses: hendrikmuhs/ccache-action@v1.2.11
         with:
           key: ${{ github.job }}-${{ matrix.os }}
           variant: sccache
