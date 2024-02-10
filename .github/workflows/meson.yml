@@ -90,6 +90,7 @@ jobs:
         run: |
           echo ${{steps.osxcross.outputs.meson-osxcross}}
           cat ${{steps.osxcross.outputs.legacy-ssl}}
+          openssl list -provider legacy -digest-commands
           echo "::group::Installing mac deps"
           omp install libsdl2 onetbb lz4 libpng minizip luajit flac
           echo "::endgroup::"
