@@ -11,6 +11,12 @@ inputs:
     description: "Version of osx to use."
     required: true
 
+outputs:
+  legacy-ssl:
+    value: ${{steps.gen_configs.outputs.legacy-ssl}}
+  meson-osxcross:
+    value: ${{steps.gen_configs.outputs.meson-osxcross}}
+
 runs:
   using: "composite"
   steps:
@@ -82,6 +88,7 @@ runs:
         echo "::endgroup::"
 
     - shell: bash
+      id: gen_configs
       run: |
         echo "::group::Setting up Bin files"
         OSXCROSS_FOLDER="$(echo "${GITHUB_ACTION_PATH}/osxcross" | sed 's/\.\/*//g')"
@@ -133,4 +140,5 @@ runs:
         [default_sect]
         activate=1
         EOF
-        echo "legacy-ssl=${GITHUB_ACTION_PATH}/ss.cnf" >> $GITHUB_OUTPUT
+
+        echo "legacy-ssl=${GITHUB_ACTION_PATH}/ssl.cnf" >> $GITHUB_OUTPUT

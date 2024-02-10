@@ -88,6 +88,7 @@ jobs:
           OSXCROSS_MACPORTS_MIRROR: "https://packages.macports.org"
           OPENSSL_CONF: ${{steps.osxcross.outputs.legacy-ssl}}
         run: |
+          echo ${{steps.osxcross.outputs.meson-osxcross}}
           echo "::group::Installing mac deps"
           omp install libsdl2 onetbb lz4 libpng minizip luajit flac
           echo "::endgroup::"
