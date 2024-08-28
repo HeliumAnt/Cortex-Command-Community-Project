@@ -32,6 +32,11 @@ runs:
         path: ${{env.OSXCROSS_FOLDER}}
 
     - shell: bash
+      run: |
+        OUT=$(patch -N -i ${GITHUB_ACTION_PATH}/macports.patch ${OSXCROSS_FOLDER}/target/bin/osxcross-macports) || echo "${OUT}" | grep "Skipping patch" -q || (echo "$OUT" && false);
+
+
+    - shell: bash
       id: target
       run: |
         repeat(){
