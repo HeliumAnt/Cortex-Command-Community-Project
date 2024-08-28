@@ -136,10 +136,6 @@ runs:
 
         echo "meson-osxcross=${OSXCROSS_FOLDER}/meson_osxcross.txt" >> $GITHUB_OUTPUT
 
-    - shell: bash
-      run: |
-        OUT=$(patch -N -i ${GITHUB_ACTION_PATH}/macports.patch ${OSXCROSS_FOLDER}/target/bin/osxcross-macports) || echo "${OUT}" | grep "Skipping patch" -q || (echo "$OUT" && false);
-
     - uses: actions/checkout@v4
       with:
         repository: auriamg/macdylibbundler
