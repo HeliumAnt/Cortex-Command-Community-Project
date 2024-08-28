@@ -37,6 +37,11 @@ on:
         type: string
         required: false
         default: "10.15"
+      skip-macos-build:
+        description: "Skip the build, useful for when the osxcross cache is gone."
+        type: boolean
+        required: false
+        default: false
 
   # Triggers the workflow when called by a top-level workflow
   workflow_call:
@@ -196,6 +201,7 @@ jobs:
           key: ${{ github.job }}-${{ matrix.os }}
 
       - name: Setup Meson
+        if: ${{ ! input.skip-macos-build }}
         env:
           LDFLAGS: "-static-libgcc -static-libstdc++"
         run: |
@@ -215,6 +221,7 @@ jobs:
           build
 
       - name: Build
+        if: ${{ ! input.skip-macos-build }}
         env:
           LDFLAGS: "-static-libgcc -static-libstdc++"
         run: |
