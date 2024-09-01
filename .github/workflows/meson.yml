@@ -215,6 +215,8 @@ jobs:
           ${{env.OSXCROSS_TARGET}}/bin/x86_64-apple-darwin20.2-pkg-config --libs tbb
           pwd
 
+          env
+
       - name: Configure for App Bundle
         if: ${{inputs.upload_artefacts}}
         env:
