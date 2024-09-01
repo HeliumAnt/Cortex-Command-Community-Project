@@ -208,7 +208,12 @@ jobs:
           meson setup --cross-file=${{steps.osxcross.outputs.meson-osxcross}} --buildtype=${{inputs.build_type}} -Ddebug_type=${{inputs.debug_level}} -Db_lto=false build
 
       - name: tbb path
-        run: x86_64-apple-darwin20.2-pkg-config --libs tbb
+        run: |
+          x86_64-apple-darwin20.2-pkg-config --libs tbb
+          which x86_64-apple-darwin20.2-pkg-config
+          echo $PATH
+          ${{env.OSXCROSS_TARGET}}/bin/x86_64-apple-darwin20.2-pkg-config --libs tbb
+          pwd
 
       - name: Configure for App Bundle
         if: ${{inputs.upload_artefacts}}
