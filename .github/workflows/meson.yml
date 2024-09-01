@@ -180,6 +180,9 @@ jobs:
         env:
           OSXCROSS_MACPORTS_MIRROR: "https://packages.macports.org"
         run: |
+          echo "::group::Installing pkg-config"
+          sudo apt update -yq
+          sudo apt install --no-install-recommends -y pkg-config
           echo "::group::Installing mac deps"
           omp install libsdl2 onetbb lz4 libpng minizip luajit flac
           echo "OSXCROSS_PKG_CONFIG_PATH=${{env.OSXCROSS_TARGET}}/macports/pkgs/opt/local/libexec/onetbb/lib/pkgconfig" >> $GITHUB_ENV
