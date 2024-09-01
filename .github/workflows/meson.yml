@@ -209,6 +209,9 @@ jobs:
 
       - name: tbb path
         run: |
+          x86_64-apple-darwin20.2-pkg-config --version
+          
+          x86_64-apple-darwin20.2-pkg-config --help
           x86_64-apple-darwin20.2-pkg-config --libs tbb
           which x86_64-apple-darwin20.2-pkg-config
           echo $PATH
